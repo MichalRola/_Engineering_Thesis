@@ -29,33 +29,32 @@ def audio_to_melspectrogram(file_name):
     if len(audio_timeseries) < 44077:
         padding = 44077 - len(audio_timeseries)
         audio_timeseries = np.pad(audio_timeseries, (0, padding), 'constant')
-    melspectrogram = librosa.feature.melspectrogram(y=audio_timeseries, sr=sampling_rate)
+    melspectrogram = librosa.feature.melspectrogram(y=audio_timeseries, sr=sampling_rate, htk=1)
     melspectrogram = librosa.power_to_db(melspectrogram).astype(np.float32)
     return melspectrogram
 
 
-def save_image_from_sound(save_path, load_path, file_name):
+def save_image_from_sound(save, load, file_name):
     new_file_name = change_suffix(file_name)
-    melspectrogram = audio_to_melspectrogram(os.path.join(load_path, file_name))
+    melspectrogram = audio_to_melspectrogram(os.path.join(load, file_name))
 
-    plt.imsave(os.path.join(save_path, new_file_name), melspectrogram, cmap='gray')
+    # plt.imshow(melspectrogram, interpolation='nearest')
+    # plt.savefig(os.path.join(save, new_file_name))
+
+    plt.imsave(os.path.join(save, new_file_name), melspectrogram, cmap='gray')
     del melspectrogram
     gc.collect()
 
 
-def main():
-    load_path = r"D:\Folders\_Engineering_Thesis\Done_Done"
-    save_path = r"D:\Folders\_Engineering_Thesis\Melspectrograms"
+
+if __name__ == "__main__":
+    load_path = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
+    save_path = r"D:\Folders\_Engineering_Thesis\Data\Melspectrograms_Training_HTK"
 
     try:
         os.mkdir(save_path)
     except OSError:
         print("Melspectrograms folder already exists.")
-        return 1
 
-    for file_name in os.listdir(load_path):
-        save_image_from_sound(save_path, load_path, file_name)
-
-
-if __name__ == "__main__":
-    main()
+    for file in os.listdir(load_path):
+        save_image_from_sound(save_path, load_path, file)
