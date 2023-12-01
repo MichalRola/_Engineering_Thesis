@@ -18,18 +18,19 @@ def change_suffix(file_name):
     return img_name
 
 
-def audio_to_melspectrogram(file_name):
+def audio_to_melspectrogram(path, htk_on=0):
     """
     audio_to_melspectrogram przekształca plik audio na melspectrogram.
     Uzupełnia również melspectrogramy o ciszę, jeśli plik jest zbyt krótki.
-    :param file_name:
+    :param path:
+    :param htk_on:
     :return: melspectogram:
     """
-    audio_timeseries, sampling_rate = librosa.load(file_name, sr=None)
+    audio_timeseries, sampling_rate = librosa.load(path, sr=None)
     if len(audio_timeseries) < 44077:
         padding = 44077 - len(audio_timeseries)
         audio_timeseries = np.pad(audio_timeseries, (0, padding), 'constant')
-    melspectrogram = librosa.feature.melspectrogram(y=audio_timeseries, sr=sampling_rate, htk=1)
+    melspectrogram = librosa.feature.melspectrogram(y=audio_timeseries, sr=sampling_rate, htk=htk_on)
     melspectrogram = librosa.power_to_db(melspectrogram).astype(np.float32)
     return melspectrogram
 
