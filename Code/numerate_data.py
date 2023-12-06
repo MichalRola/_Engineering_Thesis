@@ -18,14 +18,24 @@ def numerate_data(load, save, species_folders):
 
 
 if __name__ == "__main__":
-    load_path = r"D:\Folders\_Engineering_Thesis\Data\Done_Mono_Training"
-    save_path = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
+    load_path_training = r"D:\Folders\_Engineering_Thesis\Data\Done_Mono_Training"
+    save_path_training = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
+
+    load_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Done_Mono_Testing"
+    save_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Testing"
+
     species = ["Common Crane", "Common Cuckoo", "Corn Crake", "Eurasian Stone-curlew", "Eurasian Teal",
                        "Mallard", "Mandarin Duck", "Spotted Crake", "Stock Dove", "Tundra Swan"]
 
     try:
-        os.mkdir(save_path)
+        os.mkdir(save_path_training)
     except OSError:
         print("Done_Done folder already exists.")
 
-    numerate_data(load_path, save_path, species)
+    try:
+        os.mkdir(save_path_testing)
+    except OSError:
+        print("Done_Done folder already exists.")
+
+    numerate_data(load_path_training, save_path_training, species)
+    numerate_data(load_path_testing, save_path_testing, species)

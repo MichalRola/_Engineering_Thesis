@@ -27,17 +27,18 @@ def audio_to_melspectrogram(path, htk_on=0):
     :return: melspectogram:
     """
     audio_timeseries, sampling_rate = librosa.load(path, sr=None)
-    if len(audio_timeseries) < 44077:
-        padding = 44077 - len(audio_timeseries)
+    n_of_samples = 44200
+    if len(audio_timeseries) < n_of_samples:
+        padding = n_of_samples - len(audio_timeseries)
         audio_timeseries = np.pad(audio_timeseries, (0, padding), 'constant')
     melspectrogram = librosa.feature.melspectrogram(y=audio_timeseries, sr=sampling_rate, htk=htk_on)
     melspectrogram = librosa.power_to_db(melspectrogram).astype(np.float32)
     return melspectrogram
 
 
-def save_image_from_sound(save, load, file_name):
+def save_image_from_sound(load, save, file_name, htk_on=0):
     new_file_name = change_suffix(file_name)
-    melspectrogram = audio_to_melspectrogram(os.path.join(load, file_name))
+    melspectrogram = audio_to_melspectrogram(os.path.join(load, file_name), htk_on)
 
     # plt.imshow(melspectrogram, interpolation='nearest')
     # plt.savefig(os.path.join(save, new_file_name))
@@ -49,13 +50,24 @@ def save_image_from_sound(save, load, file_name):
 
 
 if __name__ == "__main__":
-    load_path = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
-    save_path = r"D:\Folders\_Engineering_Thesis\Data\Melspectrograms_Training_HTK"
+    load_path_training = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
+    save_path_training = r"D:\Folders\_Engineering_Thesis\Data\Melspectrograms_Training_HTK"
+
+    load_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Testing"
+    save_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Melspectrograms_Testing_HTK"
 
     try:
-        os.mkdir(save_path)
+        os.mkdir(save_path_training)
     except OSError:
         print("Melspectrograms folder already exists.")
 
-    for file in os.listdir(load_path):
-        save_image_from_sound(save_path, load_path, file)
+    try:
+        os.mkdir(save_path_testing)
+    except OSError:
+        print("Melspectrograms folder already exists.")
+
+    for file in os.listdir(load_path_training):
+        save_image_from_sound(load_path_training, save_path_training, file, 1)
+
+    for file in os.listdir(load_path_testing):
+        save_image_from_sound(load_path_testing, save_path_testing, file, 1)
