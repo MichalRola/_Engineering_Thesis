@@ -48,13 +48,14 @@ def save_image_from_sound(load, save, file_name, htk_on=0):
     gc.collect()
 
 
-
 if __name__ == "__main__":
     load_path_training = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
-    save_path_training = r"D:\Folders\_Engineering_Thesis\Data\Melspectrograms_Training_HTK"
-
     load_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Testing"
-    save_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Melspectrograms_Testing_HTK"
+
+    mel_type = r"Slaney"
+
+    save_path_training = r"D:\Folders\_Engineering_Thesis\Data\\" + mel_type + "_Training_Melspectrograms"
+    save_path_testing = r"D:\Folders\_Engineering_Thesis\Data\\" + mel_type + "_Testing_Melspectrograms"
 
     try:
         os.mkdir(save_path_training)
@@ -67,7 +68,7 @@ if __name__ == "__main__":
         print("Melspectrograms folder already exists.")
 
     for file in os.listdir(load_path_training):
-        save_image_from_sound(load_path_training, save_path_training, file, 1)
+        save_image_from_sound(load_path_training, save_path_training, file, 0)
 
     for file in os.listdir(load_path_testing):
-        save_image_from_sound(load_path_testing, save_path_testing, file, 1)
+        save_image_from_sound(load_path_testing, save_path_testing, file, 0)

@@ -19,9 +19,9 @@ def numerate_data(load, save, species_folders):
 
 if __name__ == "__main__":
     load_path_training = r"D:\Folders\_Engineering_Thesis\Data\Done_Mono_Training"
-    save_path_training = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
-
     load_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Done_Mono_Testing"
+
+    save_path_training = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Training"
     save_path_testing = r"D:\Folders\_Engineering_Thesis\Data\Done_Done_Testing"
 
     species = ["Common Crane", "Common Cuckoo", "Corn Crake", "Eurasian Stone-curlew", "Eurasian Teal",

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def create_image_dataset(load, save):
+def create_image_dataset(load, save, filename):
     dataset = []
     labels = []
     # Pętla po obrazach przedstawiających Mel Spektrogramy
@@ -23,13 +23,16 @@ def create_image_dataset(load, save):
         labels.append([species_name])
 
     # Zapis kompletnych list do odpowiedniego folderu
-    np.save(os.path.join(save, 'features_training_HTK'), np.array(dataset))
-    np.save(os.path.join(save, 'labels_training_HTK'), np.array(labels))
+    np.save(os.path.join(save, filename + "_features"), np.array(dataset))
+    np.save(os.path.join(save, filename + "_labels"), np.array(labels))
 
 
 if __name__ == "__main__":
-    # Ścieżka zawierająca obrazy Mel Spektrogramów
-    load_path = r"D:\Folders\_Engineering_Thesis\Data\Melspectrograms_Training_HTK"
+    mel_type = r"Slaney"
+    # Ścieżki zawierające obrazy Mel Spektrogramów
+    load_path_training = r"D:\Folders\_Engineering_Thesis\Data\\" + mel_type + "_Training_Melspectrograms"
+    load_path_testing = r"D:\Folders\_Engineering_Thesis\Data\\" + mel_type + "_Testing_Melspectrograms"
+
     # Docelowa ścieżka zapisu zbiorów danych
     save_path = r"D:\Folders\_Engineering_Thesis\Data\Datasets"
     
@@ -39,4 +42,5 @@ if __name__ == "__main__":
     except OSError:
         print("Datasets folder already exists.")
 
-    create_image_dataset(load_path, save_path)
+    create_image_dataset(load_path_training, save_path, mel_type + "_training")
+    create_image_dataset(load_path_testing, save_path, mel_type + "_testing")
